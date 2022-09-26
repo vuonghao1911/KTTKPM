@@ -1,19 +1,33 @@
 package com.example.spring_lap_5.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "maybay")
 public class MayBay {
-	private String mamb;
+	@Id
+	@Column(name = "ma_mb")
+	private int mamb;
+	@Column(name = "loai")
 	private String loai;
+	@Column(name = "tam_bay")
 	private int tambay;
-	public MayBay(String mamb, String loai, int tambay) {
+	public MayBay() {
+		
+	}
+	public MayBay(int mamb, String loai, int tambay) {
 		super();
 		this.mamb = mamb;
 		this.loai = loai;
 		this.tambay = tambay;
 	}
-	public String getMamb() {
+	public int getMamb() {
 		return mamb;
 	}
-	public void setMamb(String mamb) {
+	public void setMamb(int mamb) {
 		this.mamb = mamb;
 	}
 	public String getLoai() {
