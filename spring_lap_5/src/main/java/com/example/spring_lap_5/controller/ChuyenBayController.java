@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring_lap_5.dao.ChuyenBayRepository;
 import com.example.spring_lap_5.dao.MayBayRepository;
+import com.example.spring_lap_5.dao.NhanVienRepository;
 import com.example.spring_lap_5.entity.ChuyenBay;
 import com.example.spring_lap_5.entity.MayBay;
+import com.example.spring_lap_5.entity.NhanVien;
 
 
 @RestController
@@ -23,6 +25,8 @@ public class ChuyenBayController {
 	private ChuyenBayRepository chuyenBayRepository;
 	@Autowired 
 	private MayBayRepository mayBayRepository;
+	@Autowired 
+	private NhanVienRepository nhanVienRepository;
 	
 	@GetMapping("/noiden")
 	public List<ChuyenBay> getChuyenBayByNoiDen() {
@@ -33,6 +37,11 @@ public class ChuyenBayController {
 	@GetMapping("/loaimb")
 	public List<MayBay> getLoaiMBByTamBay(){
 		List<MayBay> list = mayBayRepository.findAllBytambayGreaterThan(10000);
+		return list;
+	}
+	@GetMapping("/nhanvienluong")
+	public List<NhanVien> getNhanVienByLuong(){
+		List<NhanVien> list =  nhanVienRepository.findAllByluongLessThan(10000);
 		return list;
 	}
 }
