@@ -26,9 +26,12 @@ import com.example.demo.entity.UserRepository;
 import com.example.demo.entity.UserService;
 import com.example.demo.jwt.JwtAuthenticationFilter;
 import com.example.demo.jwt.JwtTokenProvider;
+import com.example.demo.mqservice.ProducerService;
 import com.example.demo.payload.LoginRequest;
 import com.example.demo.payload.LoginResponse;
 import com.example.demo.payload.RandomStuff;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 //
 import ch.qos.logback.core.net.LoginAuthenticator;
 
@@ -44,6 +47,8 @@ public class LodaRestController {
     PasswordEncoder passwordEncoder;
     @Autowired
     UserService userService;
+    @Autowired
+    ProducerService producerService;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -124,6 +129,15 @@ public class LodaRestController {
                  }
         	 return null;
         
+    }
+    @PostMapping("/mess")
+    public String sendMess(@RequestBody String mess ) throws JsonProcessingException {
+    		
+    	producerService.sendToTopic("myTopic", mess);
+    	
+    	
+    	return mess;
+    	
     }
 
 }
