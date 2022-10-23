@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.hibernate.engine.query.spi.sql.NativeSQLQueryCollectionReturn;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.CustomUserDetails;
+import com.example.demo.entity.Order;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserRepository;
 import com.example.demo.entity.UserService;
@@ -30,7 +34,9 @@ import com.example.demo.mqservice.ProducerService;
 import com.example.demo.payload.LoginRequest;
 import com.example.demo.payload.LoginResponse;
 import com.example.demo.payload.RandomStuff;
+import com.example.demo.service.OrderRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 
 //
 import ch.qos.logback.core.net.LoginAuthenticator;
@@ -49,6 +55,7 @@ public class LodaRestController {
     UserService userService;
     @Autowired
     ProducerService producerService;
+    
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -101,7 +108,7 @@ public class LodaRestController {
         // Trả về jwt cho người dùng.
         String jwt = tokenProvider.generateToken((CustomUserDetails) ((org.springframework.security.core.Authentication) authentication).getPrincipal());
           
-        return  jwt;
+        return "jwt"+ jwt;
         
     }
 
@@ -131,13 +138,34 @@ public class LodaRestController {
         
     }
     @PostMapping("/mess")
-    public String sendMess(@RequestBody String mess ) throws JsonProcessingException {
+    public Order sendMess( @RequestBody Order  order) throws JsonProcessingException {
     		
-    	producerService.sendToTopic("myTopic", mess);
+    	producerService.sendToTopic("myTopic",  order);
     	
     	
-    	return mess;
+    	return  order;
     	
     }
+    
+//    @PostMapping("/saveorder")
+//    public Order addOrder(@RequestBody Order order) {
+//    	
+//    	try {
+//			 orderRepository.save(order);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//    	
+//    	return order;
+//    }
+//    @GetMapping
+//    public List<Order> getOrder() {
+//    	List<Order> list = orderRepository.findAll();
+//    	return list;
+//		
+//	}
+    
+    
+    
 
 }

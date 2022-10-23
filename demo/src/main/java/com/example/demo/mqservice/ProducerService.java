@@ -5,7 +5,8 @@ package com.example.demo.mqservice;
 	import com.fasterxml.jackson.databind.ObjectMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.beans.factory.annotation.Value;
-	import org.springframework.jms.core.JmsTemplate;
+import org.springframework.core.annotation.Order;
+import org.springframework.jms.core.JmsTemplate;
 	import org.springframework.stereotype.Component;
 	import org.springframework.stereotype.Service;
 
@@ -34,12 +35,13 @@ package com.example.demo.mqservice;
 	        }
 	    }
 
-	    public void sendToTopic(String topic , String mess) throws JsonProcessingException {
+	    public void sendToTopic(String topic , com.example.demo.entity.Order order) throws JsonProcessingException {
 	        try {
-	           
-	  	            jmsTemplate.send(topic, messageCreator -> {
+	          
+	            String jsonObj = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(order);
+	            jmsTemplate.send(topic, messageCreator -> {
 	                TextMessage message = messageCreator.createTextMessage();
-	                message.setText(mess);
+	                message.setText(jsonObj);
 	                return message;
 	            });
 	        }
@@ -47,6 +49,5 @@ package com.example.demo.mqservice;
 	            System.out.println("ERROR in sending message to queue");
 	        }
 	    }
-
 	}
 
