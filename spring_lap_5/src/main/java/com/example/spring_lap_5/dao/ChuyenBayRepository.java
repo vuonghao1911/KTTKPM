@@ -10,7 +10,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.example.spring_lap_5.entity.ChuyenBay;
 
-@RepositoryRestResource(path = "members")
+@RepositoryRestResource(path = "chuyenbay")
 public interface ChuyenBayRepository extends JpaRepository<ChuyenBay, String> {
 	
 	List<ChuyenBay> findAllBygaden(String gaden);

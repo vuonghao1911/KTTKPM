@@ -57,22 +57,6 @@ public class ChuyenBayController {
 		return "ok";
 	}
 	
-	   @PostMapping("/saveorder")
-	    public Order addOrder(@RequestBody Order order) {
-	    	
-	    	try {
-				 orderRepository.save(order);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	    	
-	    	return order;
-	    }
-	    @GetMapping("/getlist")
-	    public List<Order> getOrder() {
-	    	List<Order> list = orderRepository.findAll();
-	    	return list;
-			
-		}
+	  
 }
 
